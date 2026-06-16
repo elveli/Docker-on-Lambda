@@ -1,0 +1,8 @@
+{
+  "name": "AWS Lambda Container Setup",
+  "description": "Infrastructure-as-code and guide for running Docker containers on AWS Lambda using ECR.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
