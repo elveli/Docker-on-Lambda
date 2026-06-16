@@ -4,6 +4,9 @@ This project provides a step-by-step guide and Infrastructure-as-Code (IaC) setu
 
 It features an isolated VPC setup (`10.76.0.0/16`), scalable architecture, and comprehensive monitoring mechanisms using CloudWatch.
 
+## Why Containerize on Lambda? (Lambda Usage)
+By running a container image on AWS Lambda, you combine the predictability and portability of Docker with the scale-to-zero serverless economics of Lambda. Lambda pulls the image from Amazon ECR upon invocation, provisions a microVM under the hood, and executes your code without requiring you to manage or patch underlying servers.
+
 ## Project Structure
 
 - **`docker/`**: Contains the `Dockerfile` and the serverless `app.py` application.
@@ -33,6 +36,76 @@ First, run Terraform to create the ECR repository, VPC, IAM roles, and Lambda fu
 cd terraform
 terraform init
 terraform apply -auto-approve
+```
+
+### 3. Useful Docker CLI Commands
+
+Here are some commands to check, inspect, and test your local Docker image before pushing to ECR:
+
+**Check built images:**
+```bash
+docker images | grep lambda-api-repo
+```
+
+**Run the container locally:**
+To map the Lambda Runtime Interface Emulator (RIE) to port 9000 and test locally:
+```bash
+docker run -p 9000:8080 lambda-api-repo:latest
+```
+
+**Test the local container endpoint:**
+In a separate terminal, trigger the local Lambda environment:
+```bash
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{}'
+```
+
+**View running containers and logs:**
+```bash
+# List running containers
+docker ps
+
+# View logs for a running container
+docker logs <container_id>
+
+# Follow logs in real-time
+docker logs -f <container_id>
+```
+
+**Inspect image details:**
+```bash
+# View image configuration, layers, and environment variables
+docker inspect lambda-api-repo:latest
+
+# Check the history of image layers
+docker history lambda-api-repo:latest
+```
+
+### 4. Useful AWS Lambda CLI Commands
+
+To inspect, invoke, or troubleshoot the deployed Lambda function directly from your terminal:
+
+**View Lambda Configuration:**
+```bash
+# Returns memory size, timeout, role, VPC config, and attached ECR image URI
+aws lambda get-function-configuration --function-name lambda-docker-api
+```
+
+**Invoke the Lambda remotely & check output:**
+```bash
+# Triggers the function and saves the response payload to response.json
+aws lambda invoke --function-name lambda-docker-api --payload '{}' response.json
+cat response.json
+```
+
+**Fetch Lambda Logs (CloudWatch Tail):**
+```bash
+# Streams real-time logs from CloudWatch for the function
+aws logs tail /aws/lambda/lambda-docker-api --follow
+```
+
+**Check applied Lambda Tags:**
+```bash
+aws lambda list-tags --resource arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:lambda-docker-api
 ```
 
 ## Monitoring & Troubleshooting

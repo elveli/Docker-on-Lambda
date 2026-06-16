@@ -14,8 +14,9 @@ variable "lambda_tags" {
   description = "Tags to apply to resources"
   type        = map(string)
   default = {
-    Environment = "Production"
-    Service     = "lambda-api"
-    CreatedBy   = "Terraform"
+    Environment   = "Production"
+    Service       = "lambda-api"
+    CreatedBy     = "Terraform"
+    docker-lambda = "true"
   }
 }

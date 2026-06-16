@@ -1,4 +1,4 @@
-import { Terminal, Copy, Check, Info, AlertTriangle, FileCode, Zap, DollarSign, Tag, Cloud, Activity } from 'lucide-react';
+import { Terminal, Copy, Check, Info, AlertTriangle, FileCode, Zap, DollarSign, Tag, Cloud, Activity, TerminalSquare } from 'lucide-react';
 
 export default function App() {
   return (
@@ -48,6 +48,7 @@ export default function App() {
                 <div className="flex justify-between items-center"><span className="text-slate-300">Environment:</span><span className="text-blue-400 font-medium">Production</span></div>
                 <div className="flex justify-between items-center"><span className="text-slate-300">Service:</span><span className="text-blue-400 font-medium">lambda-api</span></div>
                 <div className="flex justify-between items-center"><span className="text-slate-300">CreatedBy:</span><span className="text-blue-400 font-medium">Terraform</span></div>
+                <div className="flex justify-between items-center"><span className="text-slate-300">docker-lambda:</span><span className="text-blue-400 font-medium">true</span></div>
               </div>
             </div>
           </div>
@@ -105,6 +106,48 @@ export default function App() {
     <span className="text-slate-300">tags</span> = var.lambda_tags
   {'}'}
                 </pre>
+              </section>
+
+              {/* Docker CLI Commands */}
+              <section className="bg-slate-900 rounded-xl p-6 text-slate-100 font-mono text-[12px] shadow-lg border border-slate-800">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+                  <p className="text-slate-400 flex items-center gap-2"><TerminalSquare className="w-4 h-4" /> Docker CLI Commands</p>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-slate-500 mb-1"># Test locally on port 9000</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker run -p 9000:8080 lambda-api-repo:latest</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># View running containers & logs</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker ps<br/>docker logs -f {"<container_id>"}</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># Inspect image configuration</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker inspect lambda-api-repo:latest</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* AWS Lambda CLI Commands */}
+              <section className="bg-slate-900 rounded-xl p-6 text-slate-100 font-mono text-[12px] shadow-lg border border-slate-800">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+                  <p className="text-slate-400 flex items-center gap-2"><TerminalSquare className="w-4 h-4" /> AWS Lambda CLI Commands</p>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-slate-500 mb-1"># View Lambda Configuration</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws lambda get-function-configuration --function-name lambda-docker-api</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># Invoke Lambda Remotely</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws lambda invoke --function-name lambda-docker-api --payload '{"{}"}' response.json</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># Fetch Tail Logs from CloudWatch</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws logs tail /aws/lambda/lambda-docker-api --follow</p>
+                  </div>
+                </div>
               </section>
             </div>
 
