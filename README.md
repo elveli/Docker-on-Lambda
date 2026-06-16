@@ -117,7 +117,7 @@ aws logs tail /aws/lambda/lambda-docker-api --follow
 
 **Check applied Lambda Tags:**
 ```bash
-aws lambda list-tags --resource arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:lambda-docker-api
+aws lambda list-tags --resource arn:aws:lambda:${AWS_REGION}:${AWS_ACCOUNT_ID}:function:lambda-docker-api
 ```
 
 ### 5. Useful AWS IAM CLI Commands
