@@ -14,14 +14,23 @@ By running a container image on AWS Lambda, you combine the predictability and p
 
 ## Deployment Guide
 
-### 1. Build and Push the Docker Container
+### 1. Create the ECR Repository
+Before you can push your Docker image, you must provision the ECR repository using Terraform. This resolves the chicken-and-egg dependency issue.
+
+```bash
+cd terraform
+terraform init
+terraform apply -target=aws_ecr_repository.lambda_repo -auto-approve
+```
+
+### 2. Build and Push the Docker Container
 1. Authenticate your Docker client to your Amazon ECR registry:
    ```bash
    aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
    ```
 2. Build the Docker image:
    ```bash
-   docker build -t lambda-api-repo ./docker
+   docker build -t lambda-api-repo ../docker
    ```
 3. Tag and push the image to the newly created ECR repository:
    ```bash
@@ -29,12 +38,10 @@ By running a container image on AWS Lambda, you combine the predictability and p
    docker push <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/lambda-api-repo:latest
    ```
 
-### 2. Deploy Infrastructure via Terraform
-First, run Terraform to create the ECR repository, VPC, IAM roles, and Lambda function.
+### 3. Deploy Infrastructure via Terraform
+Now that the Docker image exists in ECR, run Terraform to create the remaining resources (VPC, IAM roles, and Lambda function) without errors.
 
 ```bash
-cd terraform
-terraform init
 terraform apply -auto-approve
 ```
 
@@ -106,6 +113,20 @@ aws logs tail /aws/lambda/lambda-docker-api --follow
 **Check applied Lambda Tags:**
 ```bash
 aws lambda list-tags --resource arn:aws:lambda:<REGION>:<ACCOUNT_ID>:function:lambda-docker-api
+```
+
+### 5. Useful AWS IAM CLI Commands
+
+To verify the IAM roles and policies created for this project:
+
+**List the Lambda execution role:**
+```bash
+aws iam get-role --role-name lambda_execution_role
+```
+
+**List policies attached to the role:**
+```bash
+aws iam list-attached-role-policies --role-name lambda_execution_role
 ```
 
 ## Monitoring & Troubleshooting

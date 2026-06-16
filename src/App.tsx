@@ -67,22 +67,22 @@ export default function App() {
                   <li className="flex gap-4 group">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-sm font-bold text-slate-600 group-hover:bg-blue-50 group-hover:border-blue-200 group-hover:text-blue-600 transition-colors">1</div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900">Containerize API</p>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">Build multi-arch image using Dockerfile.</p>
+                      <p className="text-sm font-semibold text-slate-900">Provision ECR</p>
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">terraform apply -target=aws_ecr_repository</p>
                     </div>
                   </li>
                   <li className="flex gap-4 group">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-sm font-bold text-slate-600 group-hover:bg-blue-50 group-hover:border-blue-200 group-hover:text-blue-600 transition-colors">2</div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900">ECR Provisioning</p>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">Terraform pushes image to private repository.</p>
+                      <p className="text-sm font-semibold text-slate-900">Containerize & Push</p>
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">Build and push multi-arch image to registry.</p>
                     </div>
                   </li>
                   <li className="flex gap-4 group">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-sm font-bold text-slate-600 group-hover:bg-blue-50 group-hover:border-blue-200 group-hover:text-blue-600 transition-colors">3</div>
                     <div>
-                      <p className="text-sm font-semibold text-slate-900">Lambda Configuration</p>
-                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">Deploy image with VPC peering and IAM roles.</p>
+                      <p className="text-sm font-semibold text-slate-900">Lambda & VPC Config</p>
+                      <p className="text-xs text-slate-500 mt-1 leading-relaxed">Deploy remaining Terraform infrastructure.</p>
                     </div>
                   </li>
                 </ol>
@@ -146,6 +146,23 @@ export default function App() {
                   <div>
                     <p className="text-slate-500 mb-1"># Fetch Tail Logs from CloudWatch</p>
                     <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws logs tail /aws/lambda/lambda-docker-api --follow</p>
+                  </div>
+                </div>
+              </section>
+
+              {/* AWS IAM CLI Commands */}
+              <section className="bg-slate-900 rounded-xl p-6 text-slate-100 font-mono text-[12px] shadow-lg border border-slate-800">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
+                  <p className="text-slate-400 flex items-center gap-2"><TerminalSquare className="w-4 h-4" /> AWS IAM CLI Commands</p>
+                </div>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-slate-500 mb-1"># View Lambda Execution Role</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws iam get-role --role-name lambda_execution_role</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># List Attached Policies</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded break-all">aws iam list-attached-role-policies --role-name lambda_execution_role</p>
                   </div>
                 </div>
               </section>
