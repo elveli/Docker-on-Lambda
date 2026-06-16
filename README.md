@@ -12,6 +12,13 @@ By running a container image on AWS Lambda, you combine the predictability and p
 - **`docker/`**: Contains the `Dockerfile` and the serverless `app.py` application.
 - **`terraform/`**: Contains Terraform configurations for deploying VPC, IAM, ECR, Lambda, and CloudWatch alarms.
 
+## Prerequisites
+
+Before starting, ensure you have the following installed and running on your local machine:
+- **Docker Daemon**: You must have Docker running (e.g., [Docker Desktop](https://www.docker.com/products/docker-desktop), [OrbStack](https://orbstack.dev/), or Colima) to build and push the container image to ECR.
+- **Terraform CLI**: To provision the AWS infrastructure.
+- **AWS CLI**: Configured with appropriate credentials to access your AWS account.
+
 ## Deployment Guide
 
 ### 1. Create the ECR Repository
