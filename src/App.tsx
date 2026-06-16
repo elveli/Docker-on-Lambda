@@ -120,11 +120,19 @@ export default function App() {
                   </div>
                   <div>
                     <p className="text-slate-500 mb-1"># View running containers & logs</p>
-                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker ps<br/>docker logs -f {"<container_id>"}</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker ps<br/>docker logs -f $(docker ps -q -f ancestor=lambda-api-repo:latest)</p>
                   </div>
                   <div>
                     <p className="text-slate-500 mb-1"># Inspect image configuration</p>
                     <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker inspect lambda-api-repo:latest</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># Analyze image layers with dive</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">dive lambda-api-repo:latest</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-500 mb-1"># Scan vulnerabilities with Docker Scout</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker scout quickview lambda-api-repo:latest<br/>docker scout cves lambda-api-repo:latest</p>
                   </div>
                 </div>
               </section>

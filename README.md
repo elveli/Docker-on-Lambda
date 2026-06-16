@@ -76,11 +76,14 @@ curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" -d
 # List running containers
 docker ps
 
+# Get container ID for the specific image
+docker ps -q -f ancestor=lambda-api-repo:latest
+
 # View logs for a running container
-docker logs <container_id>
+docker logs $(docker ps -q -f ancestor=lambda-api-repo:latest)
 
 # Follow logs in real-time
-docker logs -f <container_id>
+docker logs -f $(docker ps -q -f ancestor=lambda-api-repo:latest)
 ```
 
 **Inspect image details:**
@@ -90,6 +93,21 @@ docker inspect lambda-api-repo:latest
 
 # Check the history of image layers
 docker history lambda-api-repo:latest
+```
+
+**Analyze image layers and space:**
+```bash
+# Discover wasted space and layer details with dive
+dive lambda-api-repo:latest
+```
+
+**Scan vulnerabilities with Docker Scout:**
+```bash
+# Get a quick overview of image vulnerabilities
+docker scout quickview lambda-api-repo:latest
+
+# Get detailed CVE information
+docker scout cves lambda-api-repo:latest
 ```
 
 ### 4. Useful AWS Lambda CLI Commands
