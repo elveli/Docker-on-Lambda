@@ -24,18 +24,23 @@ terraform apply -target=aws_ecr_repository.lambda_repo -auto-approve
 ```
 
 ### 2. Build and Push the Docker Container
-1. Authenticate your Docker client to your Amazon ECR registry:
+1. Get your AWS Account ID and set it as an environment variable:
    ```bash
-   aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
+   export AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+   export AWS_REGION=us-east-1
    ```
-2. Build the Docker image:
+2. Authenticate your Docker client to your Amazon ECR registry:
+   ```bash
+   aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+   ```
+3. Build the Docker image:
    ```bash
    docker build -t lambda-api-repo ../docker
    ```
-3. Tag and push the image to the newly created ECR repository:
+4. Tag and push the image to the newly created ECR repository:
    ```bash
-   docker tag lambda-api-repo:latest <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/lambda-api-repo:latest
-   docker push <YOUR_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/lambda-api-repo:latest
+   docker tag lambda-api-repo:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/lambda-api-repo:latest
+   docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/lambda-api-repo:latest
    ```
 
 ### 3. Deploy Infrastructure via Terraform
