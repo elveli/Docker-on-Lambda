@@ -6,7 +6,7 @@ resource "aws_cloudwatch_metric_alarm" "high_latency" {
   metric_name         = "Duration"
   namespace           = "AWS/Lambda"
   period              = "60"
-  statistic           = "p99"
+  extended_statistic  = "p99"
   threshold           = "500" # 500ms
   alarm_description   = "This metric monitors lambda p99 latency"
   treat_missing_data  = "notBreaching"
