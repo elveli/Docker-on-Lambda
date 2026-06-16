@@ -59,7 +59,9 @@ terraform apply -auto-approve
 
 ### 3. Useful Docker CLI Commands
 
-Here are some commands to check, inspect, and test your local Docker image before pushing to ECR:
+Here are some commands to check, inspect, and test your local Docker image before pushing to ECR. 
+
+> **Note:** The `docker` and `dive` CLI commands below connect to your **local Docker daemon** (e.g., Docker Desktop, OrbStack) and analyze the image cached locally on your machine. They do not connect directly to the remote Amazon ECR unless you prepend the full ECR URI to the image name.
 
 **Check built images:**
 ```bash

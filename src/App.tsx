@@ -113,6 +113,9 @@ export default function App() {
                 <div className="flex items-center justify-between mb-4 pb-2 border-b border-slate-800">
                   <p className="text-slate-400 flex items-center gap-2"><TerminalSquare className="w-4 h-4" /> Docker CLI Commands</p>
                 </div>
+                <div className="text-xs text-amber-400/90 mb-4 bg-amber-400/10 p-2 rounded-md border border-amber-400/20">
+                  <span className="font-semibold">Note:</span> These commands connect to your local Docker Daemon and cache (e.g., Docker Desktop). To inspect the remote image, you must pass the full ECR URI instead.
+                </div>
                 <div className="space-y-4">
                   <div>
                     <p className="text-slate-500 mb-1"># Test locally on port 9000</p>
