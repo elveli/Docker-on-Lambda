@@ -134,6 +134,10 @@ export default function App() {
                     <p className="text-blue-300 bg-slate-800/50 p-2 rounded">dive lambda-api-repo:latest</p>
                   </div>
                   <div>
+                    <p className="text-slate-500 mb-1"># Monitor real-time events</p>
+                    <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker events --filter image=lambda-api-repo:latest</p>
+                  </div>
+                  <div>
                     <p className="text-slate-500 mb-1"># Scan vulnerabilities with Docker Scout</p>
                     <p className="text-blue-300 bg-slate-800/50 p-2 rounded">docker scout quickview lambda-api-repo:latest<br/>docker scout cves lambda-api-repo:latest</p>
                   </div>

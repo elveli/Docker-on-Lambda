@@ -110,6 +110,12 @@ docker history lambda-api-repo:latest
 dive lambda-api-repo:latest
 ```
 
+**Monitor real-time events:**
+```bash
+# Stream real-time events for this image's containers
+docker events --filter image=lambda-api-repo:latest
+```
+
 **Scan vulnerabilities with Docker Scout:**
 ```bash
 # Get a quick overview of image vulnerabilities
