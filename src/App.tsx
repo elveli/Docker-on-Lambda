@@ -220,6 +220,26 @@ export default function App() {
                 </div>
               </section>
 
+              {/* Troubleshooting Card */}
+              <section className="bg-amber-50 rounded-xl border border-amber-200 shadow-sm p-6 hover:shadow-md transition-shadow">
+                <h3 className="text-sm font-bold text-amber-900 uppercase tracking-wide flex items-center gap-2 mb-4">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  Terraform Destroy Issues
+                </h3>
+                <div className="space-y-4 text-sm text-amber-800">
+                  <div>
+                    <strong className="block mb-1">1. ECR Repository Not Empty</strong>
+                    <p className="text-xs mb-1 bg-amber-100/50 p-2 rounded border border-amber-200/50">RepositoryNotEmptyException: cannot be deleted because it still contains images</p>
+                    <p className="text-xs text-amber-700"><strong>Fix:</strong> We've updated <code>terraform/ecr.tf</code> with <code>force_delete = true</code>. Run <code>terraform apply -target=aws_ecr_repository.lambda_repo</code> to apply this, then retry destroy.</p>
+                  </div>
+                  <div>
+                    <strong className="block mb-1">2. IAM DeleteRole AccessDenied</strong>
+                    <p className="text-xs mb-1 bg-amber-100/50 p-2 rounded border border-amber-200/50">AccessDenied: User is not authorized... explicit deny ... AWSCompromisedKeyQuarantineV3</p>
+                    <p className="text-xs text-amber-700"><strong>Fix:</strong> AWS quarantined your key. Go to IAM Console, delete the compromised keys, create new ones, run <code>aws configure</code>, and detach the quarantine policy.</p>
+                  </div>
+                </div>
+              </section>
+
               {/* Multi-Region DR Card */}
               <section className="bg-gradient-to-br from-blue-900 to-slate-900 rounded-xl p-6 text-white overflow-hidden relative shadow-lg">
                 <div className="relative z-10">

@@ -169,6 +169,27 @@ aws iam list-attached-role-policies --role-name lambda_execution_role
 
 ## Monitoring & Troubleshooting
 
+### Troubleshooting Terraform Destroy Issues
+
+If you encounter errors when running `terraform destroy`:
+
+**1. ECR Repository Not Empty Error:**
+```
+Error: ECR Repository (lambda-api-repo) not empty...
+```
+*Fix:* We have updated `terraform/ecr.tf` to include `force_delete = true`. Re-run `terraform apply -target=aws_ecr_repository.lambda_repo` to apply this change, and then retry `terraform destroy`.
+
+**2. IAM DeleteRole AccessDenied (AWSCompromisedKeyQuarantineV3):**
+```
+api error AccessDenied: User: ... is not authorized to perform: iam:DeleteRole ... with an explicit deny in an identity-based policy: arn:aws:iam::aws:policy/AWSCompromisedKeyQuarantineV3
+```
+*Fix:* AWS has automatically quarantined your IAM credentials because it detected them exposed publicly (e.g., on GitHub). To fix this:
+1. Go to the **AWS IAM Console** -> Users -> select your user (`iamadmin2`).
+2. Delete the compromised **Access Keys**.
+3. Create a **new Access Key** and configure it locally (`aws configure`).
+4. Detach the `AWSCompromisedKeyQuarantineV3` policy from your user.
+5. Re-run `terraform destroy`.
+
 The setup includes an automatically provisioned CloudWatch Metric Alarm (`lambda-high-latency-alert`) that monitors the `p99` latency of the Lambda function. If the response time exceeds `500ms` for two consecutive periods, it triggers an alert. All deployed resources are tagged with `lambda-tags` (e.g., Environment: Production).
 
 ## Multi-Region Disaster Recovery (DR)
